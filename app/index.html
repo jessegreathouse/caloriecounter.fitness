@@ -8,6 +8,10 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-social/bootstrap-social.css" />
+    <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -21,11 +25,13 @@
 
     <!-- Add your site or application content here -->
     <div class="container">
-      <div class="header">
+      <div class="header" ng-controller="HeaderCtrl">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a ng-href="#">Home</a></li>
-          <li><a ng-href="#/about">About</a></li>
-          <li><a ng-href="#">Contact</a></li>
+          <li ng-class="{ active: isActive('/')}" ><a ng-href="#/">Home</a></li>
+          <li ng-class="{ active: isActive('/meal')}" ng-show="user.authenticated" ><a ng-href="#/meal" >Meal</a></li>
+          <li ng-class="{ active: isActive('/about')}" ><a ng-href="#/about">About</a></li>
+          <li ng-class="{ active: isActive('/contact')}" ><a ng-href="#/contact">Contact</a></li>
+          <li ng-show="user.authenticated" ><a ng-href="#" ua-logout>Log Out</a></li>
         </ul>
         <h3 class="text-muted">caloriecounterfitness</h3>
       </div>
@@ -78,13 +84,42 @@
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/userapp/userapp.client.js"></script>
+    <script src="bower_components/userapp-angular/angularjs.userapp.js"></script>
+    <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/settings/global.js"></script>
         <script src="scripts/app.js"></script>
+
+        <!-- services -->
+        <script src="scripts/services/tokenService.js"></script>
+        <script src="scripts/services/nutritionService.js"></script>
+        <script src="scripts/services/mealService.js"></script>
+        <script src="scripts/services/mealCategoryService.js"></script>
+        <script src="scripts/services/mealItemService.js"></script>
+        <script src="scripts/services/mealIngredientService.js"></script>
+        <script src="scripts/services/usdaService.js"></script>
+
+        <!-- filters -->
+        <script src="scripts/filters/partitionFilter.js"></script>
+        <script src="scripts/filters/dataToPresentationFilter.js"></script>
+        <script src="scripts/filters/capitalizeFilter.js"></script>
+
+        <!-- directives -->
+        
+
+        <!-- controllers -->
+        <script src="scripts/controllers/header.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/token.js"></script>
+        <script src="scripts/controllers/meal.js"></script>
+        <script src="scripts/controllers/mealItemAdd.js"></script>
         <!-- endbuild -->
 </body>
 </html>

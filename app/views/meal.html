@@ -1,0 +1,51 @@
+<div class="jumbotron">
+  <h1>Meal Editor</h1>
+</div>
+<div class="row">
+    <div class="col-md-6 ">
+        <p class="input-group">
+        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-change="selectDate()" />
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+        </p>
+    </div>
+    <div class="col-md-6 meal-control">
+        <button id="new-meal-btn" type="button" class="btn btn-success" ng-click="newMeal()">New Meal</button>
+    </div>
+</div>
+<div class="row">
+  <accordion id="meals">
+    <accordion-group ng-repeat="meal in Meals" is-open="status.open">
+        <accordion-heading>
+            <div>{{meal.meal_category}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
+        </accordion-heading>
+        <div class="meal-control meal-item"><button id="new-meal-btn" type="button" class="btn btn-success" ng-click="newItem(meal.id)">Add New Item</button></div>
+        <accordion close-others="false" id="meal-{{meal.id}}">
+            <accordion-group ng-repeat="item in meal.meal_items" is-open="item.open">
+                <accordion-heading>
+                     <div>( {{item.amount}} {{item.ingredient.measurement}} )  {{item.ingredient.name}} 
+                     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': item.open, 'glyphicon-chevron-right': !item.open}"></i></div>
+                </accordion-heading>
+                <div class="meal-control">
+                    <button id="new-meal-btn" type="button" class="btn btn-primary" ng-click="saveItem(item.id)">Save</button>
+                    <button id="new-meal-btn" type="button" class="btn btn-danger" ng-click="removeItem(item.id)">delete</button>
+                </div>
+            </accordion-group>
+          </accordion>
+    </accordion-group>
+  </accordion>
+</div>
+<div class="row">
+    <form novalidate class="new-meal-form">
+        <input id="meal-day" type="hidden" ng-model="meal.day" />
+        <select ng-model="selectedMealCategory" ng-options="category.name for category in mealCategories" class="form-control"></select><br>
+        <input type="text" ng-model="asyncSelected" placeholder="Search USDA Database for food" typeahead="item for item in searchUsda($viewValue)" typeahead-loading="loadingUsda" class="form-control" typeahead-min-length='4'>
+        <i ng-show="loadingUsda" class="glyphicon glyphicon-refresh"></i>
+        <button ng-click="new(meal)">SAVE</button>
+    </form>
+    <pre>meal = {{meal | json}}</pre>
+    <pre>master = {{master | json}}</pre>
+    <pre>Currently selected: {{ {selected_category:selectedMealCategory} }}</pre>
+</div>
+

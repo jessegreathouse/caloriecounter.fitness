@@ -1,0 +1,18 @@
+PartitionFilter = function ($cacheFactory) {
+    var arrayCache = $cacheFactory('partition')
+    return function (arr, size) {
+        var parts = [], cachedParts,
+          jsonArr = JSON.stringify(arr);
+        for (var i = 0; i < arr.length; i += size) {
+            parts.push(arr.slice(i, i + size));
+        }
+        cachedParts = arrayCache.get(jsonArr);
+        if (JSON.stringify(cachedParts) === JSON.stringify(parts)) {
+            return cachedParts;
+        }
+        arrayCache.put(jsonArr, parts);
+
+        return parts;
+    };
+};
+angular.module('caloriecounterfitnessApp').filter('partitionFilter', ["$cacheFactory", PartitionFilter]);

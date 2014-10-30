@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Jesse Code Test</title>
+</head>
+<body>
+<section>
+<div class="error"></div>
+<ul id="list">
+</ul>
+<button type="button" id="delete" style="display:none">Delete</button>
+</section>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+    var myTasks = function (endpoint) {
+        var selected = [];
+        var list = [];
+        var displayList = function () {
+            $.each(list, function () {
+                $('<li><a data-item-id="' + this.id + '" href="#">' + this.task + '</a></li>').appendTo("#list");
+            });
+            $("#list").on("click", "a", function (e) {
+                var data = {
+                    "id": $(this).attr("data-item-id"),
+                    "task": $(this).text()
+                };
+                selected.push(JSON.stringify(data));
+                $(this).parent().remove();
+                return false;
+            });
+        };
+        var actions = {
+            endpoint : endpoint,
+            selected: selected,
+            getList: function () {
+                return list;
+            },
+            retrieveList: function () {
+                $("#delete").hide();
+                $.getJSON(this.endpoint, function (data) {
+                    list = data;
+                    displayList();
+                    $("#delete").show();
+                })
+                .fail(function () {
+                    $("div.error").text("Call to \"" + endpoint + "\" failed!");
+                });
+            },
+            removeList: function () {
+                console.log(this.selected);
+                $.post(endpoint + "/list", this.selected)
+                    .done( function (data) {
+                        console.log(data);
+                        retrieveList();
+                    })
+                    .fail(function () {
+                        $("div.error").text("Post to \"" + endpoint + "/list \" failed!");
+                    });
+            }
+        }
+        return actions;
+    }
+
+    $(document).ready(function () {
+        var tasks = new myTasks("https://gist.githubusercontent.com/dak/5063c13c82327fee6ce3/raw/ddf5c5047c37926fccde3f2285ae126bdfc26fbb/test-data.json");
+        tasks.retrieveList();
+        $("#delete").click(function () {
+            tasks.removeList();
+        });
+    });
+</script>
+</body>
+</html>

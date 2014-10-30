@@ -1,0 +1,12 @@
+<p>Please log in</p>
+
+<form ua-login>
+    <div class="btn-group">
+	    <button type="button" ua-oauth-link="google" class="btn btn-lg btn-google-plus" > 
+            <span class="fa fa-google-plus fa-fw"></span> Google </button>
+        <button type="button" ua-oauth-link="facebook" class="btn btn-lg btn-facebook" > 
+            <span class="fa fa-facebook fa-fw"></span> Facebook </button>
+	</div>
+	<p ng-show="loading"><img src="https://app.userapp.io/img/ajax-loader-transparent.gif"></p>
+	<p ng-show="error">{{ error.message }}</p>
+</form>

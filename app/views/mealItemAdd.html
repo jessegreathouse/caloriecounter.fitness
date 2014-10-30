@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add a meal Item</h3>
+</div>
+<div class="modal-body">
+    <div class="row meal-item-add-name">
+        <div class="col-md-3 xeditable-item-wrapper">
+            <a class="btn btn-primary" href="#" editable-text="mealItem.name" e-style="width: 300px" onaftersave="onSelectItem()" e-typeahead="item for item in searchUsda($viewValue) | filter:$viewValue">{{ mealItem.srchTxt }}</a>
+        </div>
+        <div class="col-md-7">
+            <input type="text" ng-model="mealItem.name" placeholder="Name of Food" typeahead="ingredient for ingredient in getIngredients($viewValue) " typeahead-min-length="4" class="form-control" />
+        </div>
+        <div class="col-md-2 xeditable-item-wrapper">
+            Amount: <a href="#" editable-number="mealItem.amount" e-min="1" e-style="width: 75px">{{mealItem.amount}}</a> 
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-4 xeditable-item-wrapper" ng-repeat="(item, value) in mealItem.ingredient | filter:partitionFilter">
+             <a href="#" editable-text="value" e-style="width: 75px" >{{ value }}</a> {{item | dataToPresentationFilter | capitalizeFilter: 'all'}}
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

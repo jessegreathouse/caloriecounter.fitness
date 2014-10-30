@@ -3,6 +3,10 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+.panel-title a {
+    cursor: pointer;
+}
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -89,4 +93,78 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+}
+
+/* Meal */
+
+div.meal-control { text-align: right; }
+div.meal-control.meal-item { margin: -10px 0 5px 0 }
+
+/* xeditable */
+
+a.editable-empty {
+    color: #428bca;
+}
+
+a.editable-hover.btn, 
+a.editable-empty.btn,
+a.editable-hover.btn,
+a.editable.btn {
+    color: #fff;
+    font-size: 14px;
+}
+
+.xeditable-item-wrapper a{
+    display: inline !important;     
+}
+
+.xeditable-item-wrapper{
+    display: inline;
+    position: relative; 
+    font-size: 1.3em;
+}
+
+.xeditable-item-wrapper form {
+    position: absolute;
+    top: -53px;
+    background: #FFF;
+    border: 1px solid #AAA;
+    border-radius: 5px;
+    padding: 7px;
+    display: inline-block;
+    left: 1%;
+    z-index: 101;
+}
+
+.xeditable-item-wrapper form:before{
+    content:"";
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;	
+    border-top: 10px solid #AAA;
+    position:absolute;
+    bottom:-10px;
+    left:10px;
+}
+
+.xeditable-item-wrapper form:after{
+    content:"";
+    width:0;
+    height:0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;	
+    border-top: 9px solid #FFF;
+    position:absolute;
+    bottom:-9px;
+    left:11px;
+}
+
+div.meal-item-add-name {
+    height: 34px;
+    margin-bottom: 20px;
+}
+
+div.meal-item-add-name div, div.meal-item-add-name div a.btn {
+    font-size: 20px;
 }
