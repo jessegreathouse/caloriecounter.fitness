@@ -1,13 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <title>Jesse Code Test</title>
 </head>
 <body>
 <section>
 <div class="error"></div>
-<ul id="list">
+<ul id="tasks">
 </ul>
 <button type="button" id="delete" style="display:none">Delete</button>
 </section>
@@ -18,9 +17,9 @@
         var list = [];
         var displayList = function () {
             $.each(list, function () {
-                $('<li><a data-item-id="' + this.id + '" href="#">' + this.task + '</a></li>').appendTo("#list");
+                $('<li><a data-item-id="' + this.id + '" href="#">' + this.task + '</a></li>').appendTo("#tasks");
             });
-            $("#list").on("click", "a", function (e) {
+            $("#tasks").on("click", "a", function (e) {
                 var data = {
                     "id": $(this).attr("data-item-id"),
                     "task": $(this).text()
@@ -49,7 +48,9 @@
             },
             removeList: function () {
                 console.log(this.selected);
-                $.post(endpoint + "/list", this.selected)
+                $.ajax({url: endpoint + "/list",
+                        type: 'DELETE',
+                        data: this.selected})
                     .done( function (data) {
                         console.log(data);
                         retrieveList();
