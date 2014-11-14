@@ -1,5 +1,5 @@
 PartitionFilter = function ($cacheFactory) {
-    var arrayCache = $cacheFactory('partition')
+    var arrayCache = $cacheFactory('partition');
     return function (arr, size) {
         var parts = [], cachedParts,
           jsonArr = JSON.stringify(arr);

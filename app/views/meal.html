@@ -20,11 +20,11 @@
         <accordion-heading>
             <div>{{meal.meal_category}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
         </accordion-heading>
-        <div class="meal-control meal-item"><button id="new-meal-btn" type="button" class="btn btn-success" ng-click="newItem(meal.id)">Add New Item</button></div>
+        <div class="meal-control meal-item"><button id="new-meal-btn" type="button" class="btn btn-success" ng-click="newItem(meal)">Add New Item</button></div>
         <accordion close-others="false" id="meal-{{meal.id}}">
             <accordion-group ng-repeat="item in meal.meal_items" is-open="item.open">
                 <accordion-heading>
-                     <div>( {{item.amount}} {{item.ingredient.measurement}} )  {{item.ingredient.name}} 
+                     <div>( {{item.amount}} {{item.ingredient.measurement}} )  {{item.ingredient.name}}
                      <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': item.open, 'glyphicon-chevron-right': !item.open}"></i></div>
                 </accordion-heading>
                 <div class="meal-control">

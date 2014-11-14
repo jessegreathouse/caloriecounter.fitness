@@ -9,7 +9,7 @@
  */
 angular.module('caloriecounterfitnessApp')
   .controller('MainCtrl', function ($scope, $rootScope) {
-      
+
   });
 
 

@@ -4,6 +4,19 @@
     var mealIngredientData = {};
     this.retrieveEventName = 'mealIngredientService.retrieveMealIngredient';
 
+  this.serializeItem = function (item) {
+    return item.id + ' - ' + item.name;
+  }
+
+  this.unSerializeItem = function (string) {
+    var pieces = string.split(' - ');
+    var item = {
+      id: pieces[0],
+      name: pieces[1]
+    };
+    return item;
+  }
+
     this.list = function (i) {
         if (null == i) { return mealIngredientList; }
         return mealIngredientList[i] || null;
@@ -22,12 +35,12 @@
     }
 
     this.retrieveMealIngredientById = function (id) {
-        return this.retrieveMealIngredient(null, null, id);
+        return this.retrieveMealIngredient(null, id);
     }
 
     this.retrieveMealIngredient = function (params, id) {
         var url = settings.ccEndpoint.url + "mealingredients/";
-        if (angular.isNumber(id)) {
+        if (id != undefined && id != null) {
             url = url + id + "/";
         }
 
@@ -37,7 +50,7 @@
 
         var deferred = $q.defer();
         $http.get(url,
-            { params: params, }
+            { params: params }
         ).success(
             function (data) {
                 if (angular.isArray(data)) {
