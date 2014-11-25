@@ -1,7 +1,9 @@
+'use strict';
+
 function MeasurementService($http, $q, $rootScope) {
 
   var measurementList = [];
-  this.retrieveEventName = 'measurementService.retrieveMeasurement';
+  var retrieveEventName = 'measurementService.retrieveMeasurement';
 
   this.list = function (i) {
     if (null == i) { return measurementList; }
@@ -23,13 +25,13 @@ function MeasurementService($http, $q, $rootScope) {
     ).success(
       function (data) {
         measurementList = data;
-        $rootScope.$broadcast(this.retrieveEventName, measurementList);
+        $rootScope.$broadcast(retrieveEventName, measurementList);
         deferred.resolve(true);
       }
     ).error(
       function (data) {
         deferred.reject(data);
-        $rootScope.$broadcast(this.retrieveEventName, measurementList);
+        $rootScope.$broadcast(retrieveEventName, measurementList);
       }
     );
     return deferred.promise;

@@ -60,6 +60,9 @@ angular
         redirectTo: '/'
       });
   })
+  .config(function ($httpProvider) {
+    $httpProvider.interceptors.push('httpInterceptorFactory');
+  })
   .run(function (user) {
       user.init({ appId: '54361db1ae584' });
   })
@@ -76,14 +79,14 @@ angular
           $http.defaults.headers.common['Authorization'] = 'Token ' + ccToken;
           $rootScope.$on('tokenService.retrieveToken', function () {
               window.location = "/";
-          }); 
+          });
       });
 
       $rootScope.$on('user.logout', function () {
           tokenService.dropToken(user.current.email);
       });
   })
-    
+
 ;
 
 

@@ -1,8 +1,10 @@
-﻿function NutritionService($http, $q, $rootScope) {
+﻿'use strict';
+
+function NutritionService($http, $q, $rootScope) {
 
   var nutritionList = [];
 
-  this.retrieveEventName = 'nutritionService.retrieveNutrition';
+  var retrieveEventName = 'nutritionService.retrieveNutrition';
 
   this.list = function (i) {
     if (null == i) { return nutritionList; }
@@ -95,13 +97,13 @@
     ).success(
       function (data) {
         nutritionList = data;
-        $rootScope.$broadcast(this.retrieveEventName, nutritionList);
+        $rootScope.$broadcast(retrieveEventName, nutritionList);
         deferred.resolve(true);
       }
     ).error(
       function (data) {
         deferred.reject(data);
-        $rootScope.$broadcast(this.retrieveEventName, nutritionList);
+        $rootScope.$broadcast(retrieveEventName, nutritionList);
       }
     );
     return deferred.promise;

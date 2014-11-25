@@ -106,7 +106,7 @@ a.editable-empty {
     color: #428bca;
 }
 
-a.editable-hover.btn, 
+a.editable-hover.btn,
 a.editable-empty.btn,
 a.editable-hover.btn,
 a.editable.btn {
@@ -115,12 +115,12 @@ a.editable.btn {
 }
 
 .xeditable-item-wrapper a{
-    display: inline !important;     
+    display: inline !important;
 }
 
 .xeditable-item-wrapper{
     display: inline;
-    position: relative; 
+    position: relative;
     font-size: 1.3em;
 }
 
@@ -138,10 +138,10 @@ a.editable.btn {
 
 .xeditable-item-wrapper form:before{
     content:"";
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-left: 10px solid transparent;
-    border-right: 10px solid transparent;	
+    border-right: 10px solid transparent;
     border-top: 10px solid #AAA;
     position:absolute;
     bottom:-10px;
@@ -153,7 +153,7 @@ a.editable.btn {
     width:0;
     height:0;
     border-left: 9px solid transparent;
-    border-right: 9px solid transparent;	
+    border-right: 9px solid transparent;
     border-top: 9px solid #FFF;
     position:absolute;
     bottom:-9px;
@@ -167,4 +167,11 @@ div.meal-item-add-name {
 
 div.meal-item-add-name div, div.meal-item-add-name div a.btn {
     font-size: 20px;
+}
+
+.spinner {
+  height: 24px;
+  width: 24px;
+  background-image: url(../images/loading_spinner.gif);
+  position:absolute;
 }

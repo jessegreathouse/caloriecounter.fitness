@@ -1,10 +1,12 @@
-﻿function UsdaService($http, $q, $rootScope) {
+﻿'use strict';
+
+function UsdaService($http, $q, $rootScope) {
 
   var usdaList = [];
   var usdaData = {
     nutrients : undefined
   };
-  this.retrieveEventName = 'usdaService.retrieveMeal';
+  var retrieveEventName = 'usdaService.retrieveMeal';
 
   this.list = function (i) {
     if (null == i) { return usdaList; }
@@ -25,7 +27,7 @@
 
   this.normalizeNutrientData = function (data) {
     var normalized = {};
-    var values = {
+    var map = {
       'Total lipid (fat)'              : 'total_fat',
       'Fatty acids, total saturated'   : 'saturated_fat',
       'Fatty acids, total trans'       : 'trans_fat',
@@ -47,7 +49,7 @@
     if (data.nutrients !== undefined) {
       for (var i = 0; i < data.nutrients.length; i++) {
         for (var key in data.nutrients[i]) {
-          normalized[values[key]] = data.nutrients[i][key];
+          normalized[map[key]] = data.nutrients[i][key] == "" ?  "0" : data.nutrients[i][key];
         }
       }
     }
@@ -90,17 +92,17 @@
       function (data) {
         if (angular.isArray(data)) {
           usdaList = data;
-          $rootScope.$broadcast(this.retrieveEventName, usdaList);
+          $rootScope.$broadcast(retrieveEventName, usdaList);
         } else {
           usdaData = data;
-          $rootScope.$broadcast(this.retrieveEventName, usdaData);
+          $rootScope.$broadcast(retrieveEventName, usdaData);
         }
         deferred.resolve(true);
       }
     ).error(
       function (data) {
         deferred.reject(data);
-        $rootScope.$broadcast(this.retrieveEventName, usdaList);
+        $rootScope.$broadcast(retrieveEventName, usdaList);
       }
     );
     return deferred.promise;

@@ -1,20 +1,22 @@
-﻿function MealCategoryService($http, $q, $rootScope) {
+﻿'use strict';
+
+function MealCategoryService($http, $q, $rootScope) {
 
   var mealList = [];
-  this.retrieveEventName = 'mealCategoryService.retrieveMeal';
+  var retrieveEventName = 'mealCategoryService.retrieveMeal';
 
   this.list = function (i) {
     if (null == i) { return mealList; }
     return mealList[i] || null;
-  }
+  };
 
   this.count = function () {
     return mealList.length;
-  }
+  };
 
   this.retrieveMealCategorys = function () {
     return this.retrieveMealCategories();
-  }
+  };
 
   this.retrieveMealCategories = function () {
     var deferred = $q.defer();
@@ -24,12 +26,12 @@
       function (data) {
         mealList = data;
         deferred.resolve(true);
-        $rootScope.$broadcast(this.retrieveEventName, mealList);
+        $rootScope.$broadcast(retrieveEventName, mealList);
       }
     ).error(
       function (data) {
         deferred.reject(data);
-        $rootScope.$broadcast(this.retrieveEventName, mealData);
+        $rootScope.$broadcast(retrieveEventName, mealList);
       }
     );
     return deferred.promise;

@@ -11,6 +11,7 @@ angular.module('caloriecounterfitnessApp')
   .controller('MealCtrl', function ($scope, $rootScope, $filter, $modal, mealService, mealCategoryService, usdaService) {
     $scope.mealCategories = [];
     $scope.Meals = [];
+    $scope.isDisabled = false;
     $scope.format = 'dd-MMMM-yyyy';
     $scope.urlFormat = 'yyyy-MM-dd';
     var tomorrow = new Date();
@@ -39,11 +40,10 @@ angular.module('caloriecounterfitnessApp')
       startingDay: 0
     };
 
-    $scope.fetchMeals = function (selectedDate) {
-      $('#new-meal-btn').attr('disabled', true);
-      mealService.retrieveMealByDate(selectedDate, selectedDate).then(function () {
-        $('#new-meal-btn').removeAttr('disabled');
-        $('#meal-day').val(selectedDate);
+    $scope.fetchMeals = function (selectedDate, nocache) {
+      $scope.isDisabled = true;
+      mealService.retrieveMealByDate(selectedDate, selectedDate, nocache).then(function () {
+        $scope.isDisabled = false;
         $scope.Meals = mealService.list();
       });
     };
@@ -75,8 +75,9 @@ angular.module('caloriecounterfitnessApp')
         }
       });
 
-      modalInstance.result.then(function (selectedItem) {
-        $scope.selected = selectedItem;
+      modalInstance.result.then(function (meal) {
+        $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat), true);
+        $('#meal-' + meal.id).trigger( "click" );
       }, function () {
 
       });

@@ -10,8 +10,9 @@
         </span>
         </p>
     </div>
-    <div class="col-md-6 meal-control">
-        <button id="new-meal-btn" type="button" class="btn btn-success" ng-click="newMeal()">New Meal</button>
+    <div class="col-md-1"> <div class="spinner" loader></div></div>
+    <div class="col-md-5 meal-control">
+        <button type="button" class="btn btn-success" ng-disabled="isDisabled" ng-click="newMeal()">New Meal</button>
     </div>
 </div>
 <div class="row">
@@ -20,32 +21,20 @@
         <accordion-heading>
             <div>{{meal.meal_category}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
         </accordion-heading>
-        <div class="meal-control meal-item"><button id="new-meal-btn" type="button" class="btn btn-success" ng-click="newItem(meal)">Add New Item</button></div>
+        <div class="meal-control meal-item"><button id="new-mealitem-btn" type="button" class="btn btn-success" ng-click="newItem(meal)">Add New Item</button></div>
         <accordion close-others="false" id="meal-{{meal.id}}">
             <accordion-group ng-repeat="item in meal.meal_items" is-open="item.open">
                 <accordion-heading>
-                     <div>( {{item.amount}} {{item.ingredient.measurement}} )  {{item.ingredient.name}}
+                     <div>( {{item.amount}} {{item.measurement.unit}} )  {{item.ingredient.name}}
                      <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': item.open, 'glyphicon-chevron-right': !item.open}"></i></div>
                 </accordion-heading>
                 <div class="meal-control">
-                    <button id="new-meal-btn" type="button" class="btn btn-primary" ng-click="saveItem(item.id)">Save</button>
-                    <button id="new-meal-btn" type="button" class="btn btn-danger" ng-click="removeItem(item.id)">delete</button>
+                    <button id="save-mealitem-btn" type="button" class="btn btn-primary" ng-click="saveItem(item.id)">Save</button>
+                    <button id="delete-mealitem-btn" type="button" class="btn btn-danger" ng-click="removeItem(item.id)">delete</button>
                 </div>
             </accordion-group>
           </accordion>
     </accordion-group>
   </accordion>
-</div>
-<div class="row">
-    <form novalidate class="new-meal-form">
-        <input id="meal-day" type="hidden" ng-model="meal.day" />
-        <select ng-model="selectedMealCategory" ng-options="category.name for category in mealCategories" class="form-control"></select><br>
-        <input type="text" ng-model="asyncSelected" placeholder="Search USDA Database for food" typeahead="item for item in searchUsda($viewValue)" typeahead-loading="loadingUsda" class="form-control" typeahead-min-length='4'>
-        <i ng-show="loadingUsda" class="glyphicon glyphicon-refresh"></i>
-        <button ng-click="new(meal)">SAVE</button>
-    </form>
-    <pre>meal = {{meal | json}}</pre>
-    <pre>master = {{master | json}}</pre>
-    <pre>Currently selected: {{ {selected_category:selectedMealCategory} }}</pre>
 </div>
 

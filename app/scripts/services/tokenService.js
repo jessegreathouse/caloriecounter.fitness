@@ -1,4 +1,6 @@
-﻿function TokenService($http, $q, $cookies, $rootScope) {
+﻿'use strict';
+
+function TokenService($http, $q, $cookies, $rootScope) {
 
   var tokenData = {};
   var retrieveEventName = 'tokenService.retrieveToken';
@@ -6,13 +8,13 @@
 
   this.get = function (key) {
     return tokenData[key] || null;
-  }
+  };
 
   this.dropToken = function () {
     delete $cookies.ccTokenKey;
     delete $cookies.ccTokenUserId;
     $rootScope.$broadcast(dropEventName, tokenData);
-  }
+  };
 
   this.retrieveToken = function (email) {
     //if the cookie data exists then use the cookie if not, make remote call
@@ -29,7 +31,7 @@
             email: email,
             format: 'jsonp',
             callback: 'JSON_CALLBACK'
-          },
+          }
         }
       ).success(
         function (data) {
@@ -40,12 +42,6 @@
         }
       ).error(
         function (data) {
-          if (
-            !angular.isObject(data) ||
-            !data.detail
-          ) {
-            tokenData = ($q.reject("An unknown error occurred."));
-          }
           tokenData = ($q.reject(data.detail));
           $rootScope.$broadcast(retrieveEventName, tokenData);
         }
