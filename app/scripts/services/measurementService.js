@@ -1,9 +1,8 @@
 'use strict';
 
-function MeasurementService($http, $q, $rootScope) {
+function MeasurementService($http, $q, $rootScope, flashService) {
 
   var measurementList = [];
-  var retrieveEventName = 'measurementService.retrieveMeasurement';
 
   this.list = function (i) {
     if (null == i) { return measurementList; }
@@ -25,17 +24,17 @@ function MeasurementService($http, $q, $rootScope) {
     ).success(
       function (data) {
         measurementList = data;
-        $rootScope.$broadcast(retrieveEventName, measurementList);
         deferred.resolve(true);
       }
     ).error(
       function (data) {
         deferred.reject(data);
-        $rootScope.$broadcast(retrieveEventName, measurementList);
+        flashService.addMessage('error', 'Failed to retrieve Measurements from "' + url + '".');
+        $rootScope.$broadcast("flashAlert", data);
       }
     );
     return deferred.promise;
   }
 }
-angular.module('caloriecounterfitnessApp').service('measurementService', ["$http", "$q", "$rootScope", MeasurementService]);
+angular.module('caloriecounterfitnessApp').service('measurementService', ["$http", "$q", "$rootScope", "flashService", MeasurementService]);
 

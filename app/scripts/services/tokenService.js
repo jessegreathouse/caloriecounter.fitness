@@ -1,10 +1,8 @@
 ﻿'use strict';
 
-function TokenService($http, $q, $cookies, $rootScope) {
+function TokenService($http, $q, $cookies, $rootScope, flashService) {
 
   var tokenData = {};
-  var retrieveEventName = 'tokenService.retrieveToken';
-  var dropEventName = 'tokenService.dropToken';
 
   this.get = function (key) {
     return tokenData[key] || null;
@@ -13,7 +11,6 @@ function TokenService($http, $q, $cookies, $rootScope) {
   this.dropToken = function () {
     delete $cookies.ccTokenKey;
     delete $cookies.ccTokenUserId;
-    $rootScope.$broadcast(dropEventName, tokenData);
   };
 
   this.retrieveToken = function (email) {
@@ -38,15 +35,16 @@ function TokenService($http, $q, $cookies, $rootScope) {
           tokenData = data;
           $cookies.ccTokenKey = tokenData.key;
           $cookies.ccTokenUserId = tokenData.user;
-          $rootScope.$broadcast(retrieveEventName, tokenData);
+          $rootScope.$broadcast('tokenService.retrieveToken', tokenData);
         }
       ).error(
         function (data) {
-          tokenData = ($q.reject(data.detail));
-          $rootScope.$broadcast(retrieveEventName, tokenData);
+          tokenData = ($q.reject(data));
+          flashService.addMessage('error', 'Failed to retrieve Token from "' + settings.ccEndpoint.url + '".');
+          $rootScope.$broadcast("flashAlert", data);
         }
       );
     }
   }
 }
-angular.module('caloriecounterfitnessApp').service('tokenService', ["$http", "$q", "$cookies", "$rootScope", TokenService]);
+angular.module('caloriecounterfitnessApp').service('tokenService', ["$http", "$q", "$cookies", "$rootScope", "flashService", TokenService]);

@@ -1,10 +1,8 @@
 ﻿'use strict';
 
-function NutritionService($http, $q, $rootScope) {
+function NutritionService($http, $q, $rootScope, flashService) {
 
   var nutritionList = [];
-
-  var retrieveEventName = 'nutritionService.retrieveNutrition';
 
   this.list = function (i) {
     if (null == i) { return nutritionList; }
@@ -97,16 +95,16 @@ function NutritionService($http, $q, $rootScope) {
     ).success(
       function (data) {
         nutritionList = data;
-        $rootScope.$broadcast(retrieveEventName, nutritionList);
         deferred.resolve(true);
       }
     ).error(
       function (data) {
         deferred.reject(data);
-        $rootScope.$broadcast(retrieveEventName, nutritionList);
+        flashService.addMessage('error', 'Failed to retrieve Nutrition from "' + url + '".');
+        $rootScope.$broadcast("flashAlert", data);
       }
     );
     return deferred.promise;
   }
 }
-angular.module('caloriecounterfitnessApp').service('nutritionService', ["$http", "$q", "$rootScope", NutritionService]);
+angular.module('caloriecounterfitnessApp').service('nutritionService', ["$http", "$q", "$rootScope", "flashService", NutritionService]);

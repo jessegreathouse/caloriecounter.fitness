@@ -1,12 +1,11 @@
 ﻿'use strict';
 
-function UsdaService($http, $q, $rootScope) {
+function UsdaService($http, $q, $rootScope, flashService) {
 
   var usdaList = [];
   var usdaData = {
     nutrients : undefined
   };
-  var retrieveEventName = 'usdaService.retrieveMeal';
 
   this.list = function (i) {
     if (null == i) { return usdaList; }
@@ -92,20 +91,19 @@ function UsdaService($http, $q, $rootScope) {
       function (data) {
         if (angular.isArray(data)) {
           usdaList = data;
-          $rootScope.$broadcast(retrieveEventName, usdaList);
         } else {
           usdaData = data;
-          $rootScope.$broadcast(retrieveEventName, usdaData);
         }
         deferred.resolve(true);
       }
     ).error(
       function (data) {
         deferred.reject(data);
-        $rootScope.$broadcast(retrieveEventName, usdaList);
+        flashService.addMessage('error', 'Failed to retrieve USDA from "' + url + '".');
+        $rootScope.$broadcast("flashAlert", data);
       }
     );
     return deferred.promise;
   };
 }
-angular.module('caloriecounterfitnessApp').service('usdaService', ["$http", "$q", "$rootScope", UsdaService]);
+angular.module('caloriecounterfitnessApp').service('usdaService', ["$http", "$q", "$rootScope", "flashService", UsdaService]);

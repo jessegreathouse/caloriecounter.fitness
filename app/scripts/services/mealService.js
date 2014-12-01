@@ -1,10 +1,9 @@
 ﻿'use strict';
 
-function MealService($http, $q, $rootScope) {
+function MealService($http, $q, $rootScope, flashService) {
 
   var mealList = [];
   var mealData = {};
-  var retrieveEventName = 'mealService.retrieveMeal';
 
   this.list = function (i) {
     if (null == i) { return mealList; }
@@ -56,19 +55,18 @@ function MealService($http, $q, $rootScope) {
       .success(function (data) {
         if (angular.isArray(data)) {
           mealList = data;
-          $rootScope.$broadcast(retrieveEventName, mealList);
         } else {
           mealData = data;
-          $rootScope.$broadcast(retrieveEventName, mealData);
         }
         deferred.resolve(true);
       })
       .error(function (data) {
         deferred.reject(data);
-        $rootScope.$broadcast(retrieveEventName, mealData);
+        flashService.addMessage('error', 'Failed to retrieve Meals from "' + url + '".');
+        $rootScope.$broadcast("flashAlert", data);
       }
     );
     return deferred.promise;
   }
 }
-angular.module('caloriecounterfitnessApp').service('mealService', ["$http", "$q", "$rootScope", MealService]);
+angular.module('caloriecounterfitnessApp').service('mealService', ["$http", "$q", "$rootScope", "flashService", MealService]);

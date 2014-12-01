@@ -77,7 +77,6 @@ angular.module('caloriecounterfitnessApp')
 
       modalInstance.result.then(function (meal) {
         $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat), true);
-        $('#meal-' + meal.id).trigger( "click" );
       }, function () {
 
       });

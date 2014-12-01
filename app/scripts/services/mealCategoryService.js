@@ -1,17 +1,16 @@
 ﻿'use strict';
 
-function MealCategoryService($http, $q, $rootScope) {
+function MealCategoryService($http, $q, $rootScope, flashService) {
 
-  var mealList = [];
-  var retrieveEventName = 'mealCategoryService.retrieveMeal';
+  var mealCategoryList = [];
 
   this.list = function (i) {
-    if (null == i) { return mealList; }
-    return mealList[i] || null;
+    if (null == i) { return mealCategoryList; }
+    return mealCategoryList[i] || null;
   };
 
   this.count = function () {
-    return mealList.length;
+    return mealCategoryList.length;
   };
 
   this.retrieveMealCategorys = function () {
@@ -24,17 +23,17 @@ function MealCategoryService($http, $q, $rootScope) {
 
     $http.get(url).success(
       function (data) {
-        mealList = data;
+        mealCategoryList = data;
         deferred.resolve(true);
-        $rootScope.$broadcast(retrieveEventName, mealList);
       }
     ).error(
       function (data) {
         deferred.reject(data);
-        $rootScope.$broadcast(retrieveEventName, mealList);
+        flashService.addMessage('error', 'Failed to load meal categories from "' + url + '".');
+        $rootScope.$broadcast("flashAlert", data);
       }
     );
     return deferred.promise;
   }
 }
-angular.module('caloriecounterfitnessApp').service('mealCategoryService', ["$http", "$q", "$rootScope", MealCategoryService]);
+angular.module('caloriecounterfitnessApp').service('mealCategoryService', ["$http", "$q", "$rootScope", "flashService", MealCategoryService]);

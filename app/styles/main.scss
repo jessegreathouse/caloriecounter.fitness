@@ -170,8 +170,16 @@ div.meal-item-add-name div, div.meal-item-add-name div a.btn {
 }
 
 .spinner {
-  height: 24px;
-  width: 24px;
-  background-image: url(../images/loading_spinner.gif);
-  position:absolute;
+   height: 24px;
+   width: 24px;
+   background-image: url(../images/loading_spinner.gif);
+   position:absolute;
+ }
+
+#messages-wrapper {
+  width: 300px;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1100;
 }
