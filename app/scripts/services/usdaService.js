@@ -1,14 +1,15 @@
 ﻿'use strict';
 
-function UsdaService($http, $q, $rootScope, flashService) {
+function UsdaService($http, $q, $rootScope) {
 
   var usdaList = [];
   var usdaData = {
     nutrients : undefined
   };
+  var retrieveEventName = 'usdaService.retrieveMeal';
 
   this.list = function (i) {
-    if (null == i) { return usdaList; }
+    if (angular.isUndefinedOrNull(i)) { return usdaList; }
     return usdaList[i] || null;
   };
 
@@ -48,7 +49,7 @@ function UsdaService($http, $q, $rootScope, flashService) {
     if (data.nutrients !== undefined) {
       for (var i = 0; i < data.nutrients.length; i++) {
         for (var key in data.nutrients[i]) {
-          normalized[map[key]] = data.nutrients[i][key] == "" ?  "0" : data.nutrients[i][key];
+          normalized[map[key]] = data.nutrients[i][key] === '' ?  '0' : data.nutrients[i][key];
         }
       }
     }
@@ -69,13 +70,13 @@ function UsdaService($http, $q, $rootScope, flashService) {
 
   this.retrieveUsda = function (params, id) {
     var deferred = $q.defer();
-    var url = settings.ccEndpoint.url + "usda/";
+    var url = $rootScope.settings.ccEndpoint.url + 'usda/';
 
-    if (id != undefined && id != null) {
-      url = url + id + "/";
+    if (!angular.isUndefinedOrNull(id)) {
+      url = url + id + '/';
     }
 
-    if (params == undefined || params == null) {
+    if (angular.isUndefinedOrNull(params)) {
       params = {};
     }
 
@@ -91,19 +92,20 @@ function UsdaService($http, $q, $rootScope, flashService) {
       function (data) {
         if (angular.isArray(data)) {
           usdaList = data;
+          $rootScope.$broadcast(retrieveEventName, usdaList);
         } else {
           usdaData = data;
+          $rootScope.$broadcast(retrieveEventName, usdaData);
         }
         deferred.resolve(true);
       }
     ).error(
       function (data) {
         deferred.reject(data);
-        flashService.addMessage('error', 'Failed to retrieve USDA from "' + url + '".');
-        $rootScope.$broadcast("flashAlert", data);
+        $rootScope.$broadcast(retrieveEventName, usdaList);
       }
     );
     return deferred.promise;
   };
 }
-angular.module('caloriecounterfitnessApp').service('usdaService', ["$http", "$q", "$rootScope", "flashService", UsdaService]);
+angular.module('caloriecounterfitnessApp').service('usdaService', ['$http', '$q', '$rootScope', UsdaService]);

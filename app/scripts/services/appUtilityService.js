@@ -1,7 +1,7 @@
 'use strict';
 
-function AppUtilityService($q, $rootScope) {
+function AppUtilityService() {
 
 
 }
-angular.module('caloriecounterfitnessApp').service('appUtilityService', ["$q", "$rootScope", AppUtilityService]);
+angular.module('caloriecounterfitnessApp').service('appUtilityService', [AppUtilityService]);

@@ -6,7 +6,7 @@ function MealService($http, $q, $rootScope, flashService) {
   var mealData = {};
 
   this.list = function (i) {
-    if (null == i) { return mealList; }
+    if (angular.isUndefinedOrNull(i)) { return mealList; }
     return mealList[i] || null;
   };
 
@@ -32,10 +32,10 @@ function MealService($http, $q, $rootScope, flashService) {
 
   this.retrieveMeal = function (startdate, enddate, id) {
     var deferred = $q.defer();
-    var url = settings.ccEndpoint.url + "meals/";
+    var url = $rootScope.settings.ccEndpoint.url + 'meals/';
 
     if (angular.isNumber(id)) {
-      url = url +  id + "/";
+      url = url +  id + '/';
     }
 
     var urlParams = {};
@@ -63,10 +63,43 @@ function MealService($http, $q, $rootScope, flashService) {
       .error(function (data) {
         deferred.reject(data);
         flashService.addMessage('error', 'Failed to retrieve Meals from "' + url + '".');
-        $rootScope.$broadcast("flashAlert", data);
+        $rootScope.$broadcast('flashAlert', data);
       }
     );
     return deferred.promise;
-  }
+  };
+
+  this.saveMeal = function (data, params, id) {
+    var deferred = $q.defer();
+    var url = $rootScope.settings.ccEndpoint.url + 'meals/';
+
+    if (angular.isNumber(id)) {
+      url = url + id + '/';
+    }
+
+    $http.post(url, data,
+      { params: params }
+    ).success(
+      function (data) {
+        if (angular.isArray(data)) {
+          mealList = data;
+          flashService.addMessage('success', 'Saved ' + this.count() + ' Meals.');
+          $rootScope.$broadcast('flashAlert', mealList);
+        } else {
+          mealData = data;
+          flashService.addMessage('success', 'Saved Meal: "' + mealData.meal_category.name + '" .');
+          $rootScope.$broadcast('flashAlert', mealData);
+        }
+        deferred.resolve(true);
+      }
+    ).error(
+      function (data) {
+        deferred.reject(data);
+        flashService.addMessage('error', 'Failed to save Meal.');
+        $rootScope.$broadcast('flashAlert', data);
+      }
+    );
+    return deferred.promise;
+  };
 }
-angular.module('caloriecounterfitnessApp').service('mealService', ["$http", "$q", "$rootScope", "flashService", MealService]);
+angular.module('caloriecounterfitnessApp').service('mealService', ['$http', '$q', '$rootScope', 'flashService', MealService]);

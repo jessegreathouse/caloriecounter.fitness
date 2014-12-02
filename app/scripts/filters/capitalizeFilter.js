@@ -1,4 +1,6 @@
-CapitalizeFilter = function () {
+'use strict';
+
+var CapitalizeFilter = function () {
     return function (input, format) {
         if (!input) {
             return input;
@@ -20,6 +22,6 @@ CapitalizeFilter = function () {
             });
             return result.join(' ');
         }
-    }
+    };
 };
 angular.module('caloriecounterfitnessApp').filter('capitalizeFilter', CapitalizeFilter);

@@ -8,6 +8,6 @@
  * Controller of the caloriecounterfitnessApp
  */
 angular.module('caloriecounterfitnessApp')
-  .controller('TokenCtrl', function ($scope, $rootScope) {
+  .controller('TokenCtrl', function () {
 
   });

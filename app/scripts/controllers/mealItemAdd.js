@@ -15,7 +15,7 @@ angular.module('caloriecounterfitnessApp')
     $scope.mealItem = {
       meal: meal.url,
       amount: 1,
-      measurement: {id: 1, unit: "100 Grams", gram_weight:100},
+      measurement: {id: 1, unit: '100 Grams', gram_weight:100},
       ingredient: {name: null, id: undefined}
     };
     $scope.measurements = [$scope.mealItem.measurement];
@@ -23,7 +23,7 @@ angular.module('caloriecounterfitnessApp')
 
     $scope.save = function () {
       $scope.isDisabled = true;
-      var params = {'search': $scope.mealItem.ingredient.name, 'limit': 1};
+      var params = {'search': $scope.mealItem.ingredient.name, 'exact': true, 'limit': 1};
       mealIngredientService.retrieveMealIngredient(params).then(function () {
         if (mealIngredientService.count() <= 0) {
           mealIngredientService.saveMealIngredient($scope.mealItem.ingredient, {}, $scope.mealItem.ingredient.id).then(function () {
@@ -77,7 +77,7 @@ angular.module('caloriecounterfitnessApp')
 
     $scope.findMeasurementWeightById = function (id) {
       for (var i = 0; $scope.measurements.length > i; i++) {
-        if ($scope.measurements[i].id == id) {
+        if ($scope.measurements[i].id === id) {
           return $scope.measurements[i].gram_weight;
         }
       }

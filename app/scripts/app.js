@@ -14,8 +14,8 @@
  *
  */
 angular.isUndefinedOrNull = function (val) {
-  return angular.isUndefined(val) || val === null
-}
+  return (angular.isUndefined(val) || val === null);
+};
 
 angular
   .module('caloriecounterfitnessApp', [
@@ -69,19 +69,20 @@ angular
   .run(function(editableOptions) {
     editableOptions.theme = 'bs3';
   })
-  .run(function ($rootScope) {
+  .run(function ($rootScope, settingsProvider) {
+    $rootScope.settings = settingsProvider.settings;
     $rootScope.flashMessages = [];
   })
   .run(function ($rootScope, $location, user, $http, tokenService) {
     $rootScope.$on('user.login', function () {
       tokenService.retrieveToken(user.current.email);
-      var ccToken = tokenService.get("key");
-      if (ccToken == null) {
+      var ccToken = tokenService.get('key');
+      if (angular.isUndefinedOrNull(ccToken)) {
         $location.path('/token');
       }
-      $http.defaults.headers.common['Authorization'] = 'Token ' + ccToken;
+      $http.defaults.headers.common.Authorization = 'Token ' + ccToken;
       $rootScope.$on('tokenService.retrieveToken', function () {
-        window.location = "/";
+        window.location = '/';
       });
     });
 

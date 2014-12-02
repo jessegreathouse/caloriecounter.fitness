@@ -1,5 +1,7 @@
-﻿//filter to take a data string and prepare it for display in presentation
-DataToPresentationFilter = function () {
+﻿'use strict';
+
+//filter to take a data string and prepare it for display in presentation
+var DataToPresentationFilter = function () {
     return function (text) {
         //removes underscores
         text = text.replace(/_/g, ' ');

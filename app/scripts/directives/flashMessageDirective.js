@@ -1,16 +1,16 @@
 'use strict';
 
 function FlashMessageDirective ($rootScope, $interval, flashService) {
-  var templateString = '\
-    <div id="messages-wrapper">\
-      <div class="alert alert-{{ message.type }} {{ animation }}" ng-repeat="message in flashMessages">\
-        <a class="close" ng-click="message.close();" data-dismiss="alert" aria-hidden="true">&times;</a>\
-        <span>\
-          {{ message.text }}\
-        </span>\
-      </div>\
-    </div>\
-    ';
+  var templateString = '' +
+    '<div id="messages-wrapper">' +
+      '<div class="alert alert-{{ message.type }} {{ animation }}" ng-repeat="message in flashMessages">' +
+        '<a class="close" ng-click="message.close();" data-dismiss="alert" aria-hidden="true">&times;</a>' +
+        '<span>' +
+          '{{ message.text }}' +
+        '</span>' +
+      '</div>' +
+    '</div>'+
+    '';
   return {
     restrict: 'AE',
     template: templateString,
@@ -35,4 +35,4 @@ function FlashMessageDirective ($rootScope, $interval, flashService) {
 
   };
 }
-angular.module('caloriecounterfitnessApp').directive('flashMessageDirective', ["$rootScope", "$interval", "flashService", FlashMessageDirective]);
+angular.module('caloriecounterfitnessApp').directive('flashMessageDirective', ['$rootScope', '$interval', 'flashService', FlashMessageDirective]);

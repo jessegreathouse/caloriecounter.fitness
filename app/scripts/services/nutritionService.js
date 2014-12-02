@@ -5,7 +5,7 @@ function NutritionService($http, $q, $rootScope, flashService) {
   var nutritionList = [];
 
   this.list = function (i) {
-    if (null == i) { return nutritionList; }
+    if (angular.isUndefinedOrNull(i)) { return nutritionList; }
     return nutritionList[i] || null;
   };
 
@@ -86,7 +86,7 @@ function NutritionService($http, $q, $rootScope, flashService) {
 
   this.retrieveNutrition = function () {
     var deferred = $q.defer();
-    var url = settings.ccEndpoint.url + "nutrition/";
+    var url = $rootScope.settings.ccEndpoint.url + 'nutrition/';
 
     var urlParams = {};
 
@@ -101,10 +101,10 @@ function NutritionService($http, $q, $rootScope, flashService) {
       function (data) {
         deferred.reject(data);
         flashService.addMessage('error', 'Failed to retrieve Nutrition from "' + url + '".');
-        $rootScope.$broadcast("flashAlert", data);
+        $rootScope.$broadcast('flashAlert', data);
       }
     );
     return deferred.promise;
-  }
+  };
 }
-angular.module('caloriecounterfitnessApp').service('nutritionService', ["$http", "$q", "$rootScope", "flashService", NutritionService]);
+angular.module('caloriecounterfitnessApp').service('nutritionService', ['$http', '$q', '$rootScope', 'flashService', NutritionService]);

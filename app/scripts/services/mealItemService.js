@@ -6,7 +6,7 @@ function MealItemService($http, $q, $rootScope, flashService) {
   var mealItemData = {};
 
   this.list = function (i) {
-    if (null == i) { return mealItemList; }
+    if (angular.isUndefinedOrNull(i)) { return mealItemList; }
     return mealItemList[i] || null;
   };
 
@@ -28,10 +28,10 @@ function MealItemService($http, $q, $rootScope, flashService) {
 
   this.retrieveMealItem = function (params, id) {
     var deferred = $q.defer();
-    var url = settings.ccEndpoint.url + "mealitems/";
+    var url = $rootScope.settings.ccEndpoint.url + 'mealitems/';
 
     if (angular.isNumber(id)) {
-      url = url + id + "/";
+      url = url + id + '/';
     }
 
     $http.get(url,
@@ -49,7 +49,7 @@ function MealItemService($http, $q, $rootScope, flashService) {
       function (data) {
         deferred.reject(data);
         flashService.addMessage('error', 'Failed to retrieve Meal Item from "' + url + '".');
-        $rootScope.$broadcast("flashAlert", data);
+        $rootScope.$broadcast('flashAlert', data);
       }
     );
     return deferred.promise;
@@ -57,10 +57,10 @@ function MealItemService($http, $q, $rootScope, flashService) {
 
   this.saveMealItem = function (data, params, id) {
     var deferred = $q.defer();
-    var url = settings.ccEndpoint.url + "mealitems/";
+    var url = $rootScope.settings.ccEndpoint.url + 'mealitems/';
 
     if (angular.isNumber(id)) {
-      url = url + id + "/";
+      url = url + id + '/';
     }
 
     $http.post(url, data,
@@ -70,11 +70,11 @@ function MealItemService($http, $q, $rootScope, flashService) {
         if (angular.isArray(data)) {
           mealItemList = data;
           flashService.addMessage('success', 'Saved Meal Item.');
-          $rootScope.$broadcast("flashAlert", mealItemData);
+          $rootScope.$broadcast('flashAlert', mealItemData);
         } else {
           mealItemData = data;
           flashService.addMessage('success', 'Saved Meal Item.');
-          $rootScope.$broadcast("flashAlert", mealItemData);
+          $rootScope.$broadcast('flashAlert', mealItemData);
         }
         deferred.resolve(true);
       }
@@ -82,10 +82,10 @@ function MealItemService($http, $q, $rootScope, flashService) {
       function (data) {
         deferred.reject(data);
         flashService.addMessage('error', 'Failed to save Meal Item.');
-        $rootScope.$broadcast("flashAlert", data);
+        $rootScope.$broadcast('flashAlert', data);
       }
     );
     return deferred.promise;
   };
 }
-angular.module('caloriecounterfitnessApp').service('mealItemService', ["$http", "$q", "$rootScope", "flashService", MealItemService]);
+angular.module('caloriecounterfitnessApp').service('mealItemService', ['$http', '$q', '$rootScope', 'flashService', MealItemService]);

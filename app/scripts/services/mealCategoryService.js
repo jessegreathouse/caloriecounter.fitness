@@ -5,7 +5,7 @@ function MealCategoryService($http, $q, $rootScope, flashService) {
   var mealCategoryList = [];
 
   this.list = function (i) {
-    if (null == i) { return mealCategoryList; }
+    if (angular.isUndefinedOrNull(i)) { return mealCategoryList; }
     return mealCategoryList[i] || null;
   };
 
@@ -19,7 +19,7 @@ function MealCategoryService($http, $q, $rootScope, flashService) {
 
   this.retrieveMealCategories = function () {
     var deferred = $q.defer();
-    var url = settings.ccEndpoint.url + "mealcategories/";
+    var url = $rootScope.settings.ccEndpoint.url + 'mealcategories/';
 
     $http.get(url).success(
       function (data) {
@@ -30,10 +30,10 @@ function MealCategoryService($http, $q, $rootScope, flashService) {
       function (data) {
         deferred.reject(data);
         flashService.addMessage('error', 'Failed to load meal categories from "' + url + '".');
-        $rootScope.$broadcast("flashAlert", data);
+        $rootScope.$broadcast('flashAlert', data);
       }
     );
     return deferred.promise;
-  }
+  };
 }
-angular.module('caloriecounterfitnessApp').service('mealCategoryService', ["$http", "$q", "$rootScope", "flashService", MealCategoryService]);
+angular.module('caloriecounterfitnessApp').service('mealCategoryService', ['$http', '$q', '$rootScope', 'flashService', MealCategoryService]);

@@ -17,12 +17,12 @@ function TokenService($http, $q, $cookies, $rootScope, flashService) {
     //if the cookie data exists then use the cookie if not, make remote call
     if (angular.isDefined($cookies.ccTokenKey) && angular.isDefined($cookies.ccTokenUserId)) {
       tokenData = {
-        "key" : $cookies.ccTokenKey,
-        "user": $cookies.ccTokenUserId
+        'key' : $cookies.ccTokenKey,
+        'user': $cookies.ccTokenUserId
       };
     } else {
       $http.jsonp(
-        settings.ccEndpoint.url + "token/",
+        $rootScope.settings.ccEndpoint.url + 'token/',
         {
           params: {
             email: email,
@@ -40,11 +40,11 @@ function TokenService($http, $q, $cookies, $rootScope, flashService) {
       ).error(
         function (data) {
           tokenData = ($q.reject(data));
-          flashService.addMessage('error', 'Failed to retrieve Token from "' + settings.ccEndpoint.url + '".');
-          $rootScope.$broadcast("flashAlert", data);
+          flashService.addMessage('error', 'Failed to retrieve Token from "' + $rootScope.settings.ccEndpoint.url + '".');
+          $rootScope.$broadcast('flashAlert', data);
         }
       );
     }
-  }
+  };
 }
-angular.module('caloriecounterfitnessApp').service('tokenService', ["$http", "$q", "$cookies", "$rootScope", "flashService", TokenService]);
+angular.module('caloriecounterfitnessApp').service('tokenService', ['$http', '$q', '$cookies', '$rootScope', 'flashService', TokenService]);

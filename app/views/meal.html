@@ -2,39 +2,47 @@
   <h1>Meal Editor</h1>
 </div>
 <div class="row">
-    <div class="col-md-6 ">
-        <p class="input-group">
-        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-change="selectDate()" />
+  <div class="col-md-6 ">
+    <p class="input-group">
+      <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-change="selectDate()" />
         <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
         </span>
-        </p>
+    </p>
+  </div>
+  <div class="col-md-1"> <div class="spinner" loader></div></div>
+  <div class="col-md-5 meal-control">
+    <!-- Single button -->
+    <div class="btn-group" dropdown is-open="newMealBtnStatus.isOpen">
+      <button type="button" class="btn btn-success dropdown-toggle" dropdown-toggle ng-disabled="isDisabled" ng-click="toggleDropdown($event)">
+        New Meal <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" >
+        <li ng-repeat="category in mealCategories"><a href="#" ng-click="newMeal($event, category)">{{category.name}}</a></li>
+      </ul>
     </div>
-    <div class="col-md-1"> <div class="spinner" loader></div></div>
-    <div class="col-md-5 meal-control">
-        <button type="button" class="btn btn-success" ng-disabled="isDisabled" ng-click="newMeal()">New Meal</button>
-    </div>
+  </div>
 </div>
 
 <div class="row">
   <accordion id="meals">
     <accordion-group ng-repeat="meal in Meals" is-open="status.open">
-        <accordion-heading>
-            <div>{{meal.meal_category}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
-        </accordion-heading>
-        <div class="meal-control meal-item"><button id="new-mealitem-btn" type="button" class="btn btn-success" ng-click="newItem(meal)">Add New Item</button></div>
-        <accordion close-others="false" id="meal-{{meal.id}}">
-            <accordion-group ng-repeat="item in meal.meal_items" is-open="item.open">
-                <accordion-heading>
-                     <div>( {{item.amount}} {{item.measurement.unit}} )  {{item.ingredient.name}}
-                     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': item.open, 'glyphicon-chevron-right': !item.open}"></i></div>
-                </accordion-heading>
-                <div class="meal-control">
-                    <button id="save-mealitem-btn" type="button" class="btn btn-primary" ng-click="saveItem(item.id)">Save</button>
-                    <button id="delete-mealitem-btn" type="button" class="btn btn-danger" ng-click="removeItem(item.id)">delete</button>
-                </div>
-            </accordion-group>
-          </accordion>
+      <accordion-heading>
+        <div>{{meal.meal_category.name}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
+      </accordion-heading>
+      <div class="meal-control meal-item"><button id="new-mealitem-btn" type="button" class="btn btn-success" ng-click="newItem(meal)">Add New Item</button></div>
+      <accordion close-others="false" id="meal-{{meal.id}}">
+        <accordion-group ng-repeat="item in meal.meal_items" is-open="item.open">
+          <accordion-heading>
+            <div>( {{item.amount}} {{item.measurement.unit}} )  {{item.ingredient.name}}
+              <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': item.open, 'glyphicon-chevron-right': !item.open}"></i></div>
+          </accordion-heading>
+          <div class="meal-control">
+            <button id="save-mealitem-btn" type="button" class="btn btn-primary" ng-click="saveItem(item.id)">Save</button>
+            <button id="delete-mealitem-btn" type="button" class="btn btn-danger" ng-click="removeItem(item.id)">delete</button>
+          </div>
+        </accordion-group>
+      </accordion>
     </accordion-group>
   </accordion>
 </div>

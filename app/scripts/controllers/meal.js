@@ -14,14 +14,20 @@ angular.module('caloriecounterfitnessApp')
     $scope.isDisabled = false;
     $scope.format = 'dd-MMMM-yyyy';
     $scope.urlFormat = 'yyyy-MM-dd';
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    $scope.maxDate = tomorrow;
     $scope.today = function () {
       $scope.dt = new Date();
     };
     $scope.today();
     $scope.usda = undefined;
+    $scope.newMealBtnStatus = {
+      isOpen: false
+    };
+
+    $scope.toggleDropdown = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.newMealBtnStatus.isOpen = !$scope.newMealBtnStatus.isOpen;
+    };
 
     // Disable weekend selection
     $scope.disabled = function (date, mode) {
@@ -40,9 +46,9 @@ angular.module('caloriecounterfitnessApp')
       startingDay: 0
     };
 
-    $scope.fetchMeals = function (selectedDate, nocache) {
+    $scope.fetchMeals = function (selectedDate) {
       $scope.isDisabled = true;
-      mealService.retrieveMealByDate(selectedDate, selectedDate, nocache).then(function () {
+      mealService.retrieveMealByDate(selectedDate, selectedDate).then(function () {
         $scope.isDisabled = false;
         $scope.Meals = mealService.list();
       });
@@ -64,22 +70,37 @@ angular.module('caloriecounterfitnessApp')
     };
 
     $scope.newItem = function (meal) {
+      var myMeal = function () {
+        return meal;
+      };
       var modalInstance = $modal.open({
         templateUrl: 'views/mealItemAdd.html',
         controller: 'MealItemAddCtrl',
         size: 'lg',
         resolve: {
-          meal: function () {
-            return meal;
-          }
+          meal: myMeal
         }
       });
 
-      modalInstance.result.then(function (meal) {
-        $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat), true);
+      modalInstance.result.then(function () {
+        $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat));
       }, function () {
 
       });
+    };
+
+    $scope.newMeal = function($event, category) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      var meal = {
+        day: $filter('date')($scope.dt, $scope.urlFormat),
+        meal_items: [],
+        meal_category: category
+      };
+      mealService.saveMeal(meal).then(function() {
+        $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat));
+      });
+      $scope.newMealBtnStatus.isOpen = false;
     };
 
     $scope.selectDate = function () {

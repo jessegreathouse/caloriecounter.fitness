@@ -18,7 +18,7 @@ function MealIngredientService($http, $q, $rootScope, flashService) {
   };
 
   this.list = function (i) {
-    if (null == i) { return mealIngredientList; }
+    if (angular.isUndefinedOrNull(i)) { return mealIngredientList; }
     return mealIngredientList[i] || null;
   };
 
@@ -39,13 +39,13 @@ function MealIngredientService($http, $q, $rootScope, flashService) {
   };
 
   this.retrieveMealIngredient = function (params, id) {
-    var url = settings.ccEndpoint.url + "mealingredients/";
-    if (id != undefined && id != null) {
-      url = url + id + "/";
+    var url = $rootScope.settings.ccEndpoint.url + 'mealingredients/';
+    if (angular.isUndefinedOrNull(params)) {
+      params = {};
     }
 
-    if (params == undefined || params == null) {
-      params = {}
+    if (!angular.isUndefinedOrNull(id)) {
+      url = url + id + '/';
     }
 
     var deferred = $q.defer();
@@ -64,7 +64,7 @@ function MealIngredientService($http, $q, $rootScope, flashService) {
       function (data) {
         deferred.reject(data);
         flashService.addMessage('error', 'Failed to retrieve Ingredients from "' + url + '".');
-        $rootScope.$broadcast("flashAlert", data);
+        $rootScope.$broadcast('flashAlert', data);
       }
     );
     return deferred.promise;
@@ -73,13 +73,13 @@ function MealIngredientService($http, $q, $rootScope, flashService) {
   this.saveMealIngredient = function (data, params, id) {
     var deferred = $q.defer();
     var method = 'POST';
-    var url = settings.ccEndpoint.url + "mealingredients/";
-    if (params == undefined || params == null) {
-      params = {}
+    var url = $rootScope.settings.ccEndpoint.url + 'mealingredients/';
+    if (angular.isUndefinedOrNull(params)) {
+      params = {};
     }
 
-    if (id != undefined || id != null) {
-      url = url + id + "/";
+    if (!angular.isUndefinedOrNull(id)) {
+      url = url + id + '/';
       method = 'PUT';
     }
 
@@ -92,19 +92,18 @@ function MealIngredientService($http, $q, $rootScope, flashService) {
       function (data) {
         mealIngredientData = data;
         flashService.addMessage('success', 'Saved ingredient: "' + mealIngredientData.name + '".');
-        $rootScope.$broadcast("flashAlert", mealIngredientData);
+        $rootScope.$broadcast('flashAlert', mealIngredientData);
         deferred.resolve(true);
       }
     ).error(
       function (data) {
         deferred.reject(data);
         flashService.addMessage('error', 'Failed to save Ingredients from "' + url + '".');
-        $rootScope.$broadcast("errorAlert", data);
+        $rootScope.$broadcast('flashAlert', data);
       }
     );
     return deferred.promise;
 
-
   };
 }
-angular.module('caloriecounterfitnessApp').service('mealIngredientService', ["$http", "$q", "$rootScope", "flashService", MealIngredientService]);
+angular.module('caloriecounterfitnessApp').service('mealIngredientService', ['$http', '$q', '$rootScope', 'flashService', MealIngredientService]);
