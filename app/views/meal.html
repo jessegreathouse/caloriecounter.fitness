@@ -26,21 +26,18 @@
 
 <div class="row">
   <accordion id="meals">
-    <accordion-group ng-repeat="meal in Meals" is-open="status.open">
+    <accordion-group ng-repeat="meal in Meals" is-open="meal.isOpen">
       <accordion-heading>
-        <div>{{meal.meal_category.name}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i></div>
+        <div>{{meal.meal_category.name}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': meal.isOpen, 'glyphicon-chevron-right': !meal.isOpen}"></i></div>
       </accordion-heading>
       <div class="meal-control meal-item"><button id="new-mealitem-btn" type="button" class="btn btn-success" ng-click="newItem(meal)">Add New Item</button></div>
       <accordion close-others="false" id="meal-{{meal.id}}">
-        <accordion-group ng-repeat="item in meal.meal_items" is-open="item.open">
+        <accordion-group ng-repeat="mealItem in meal.meal_items" is-open="mealItem.isOpen">
           <accordion-heading>
-            <div>( {{item.amount}} {{item.measurement.unit}} )  {{item.ingredient.name}}
-              <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': item.open, 'glyphicon-chevron-right': !item.open}"></i></div>
+            <div>( {{mealItem.amount}} {{mealItem.measurement.unit}} )  {{mealItem.ingredient.name}}
+              <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': mealItem.isOpen, 'glyphicon-chevron-right': !mealItem.isOpen}"></i></div>
           </accordion-heading>
-          <div class="meal-control">
-            <button id="save-mealitem-btn" type="button" class="btn btn-primary" ng-click="saveItem(item.id)">Save</button>
-            <button id="delete-mealitem-btn" type="button" class="btn btn-danger" ng-click="removeItem(item.id)">delete</button>
-          </div>
+          <div class="meal-control" ng-model="mealItem" ng-include="'views/mealItemEdit.html'" ng-controller="MealItemEditCtrl"></div>
         </accordion-group>
       </accordion>
     </accordion-group>

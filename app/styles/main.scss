@@ -122,6 +122,7 @@ a.editable.btn {
     display: inline;
     position: relative;
     font-size: 1.3em;
+    text-align: left;
 }
 
 .xeditable-item-wrapper form {
@@ -158,6 +159,14 @@ a.editable.btn {
     position:absolute;
     bottom:-9px;
     left:11px;
+}
+
+.meal-control .form-control,  .meal-control .measurement-select {
+  width: 99%;
+}
+
+.meal-control .item-amount {
+  font-size: 1.3em;
 }
 
 div.meal-item-add-name {

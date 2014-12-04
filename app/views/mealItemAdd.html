@@ -2,49 +2,8 @@
   <h3 class="modal-title">Add a meal Item</h3>
 </div>
 
-<div class="modal-body">
-  <div class="row meal-item-add-name">
-    <div class="col-md-3 xeditable-item-wrapper">
-      <a ng-disabled="isDisabled" class="btn btn-primary" href="#" editable-text="mealItem.ingredient.name"
-         e-style="width: 300px" onaftersave="onSelectItem()"
-         e-typeahead="item for item in searchUsda($viewValue) | filter:$viewValue">{{ srchTxt }}
-      </a>
-    </div>
+<div class="modal-body" ng-include="'views/mealItem.html'">
 
-    <div class="col-md-2 ">
-      <label>
-        <select
-          ng-disabled="isDisabled"
-          ng-model="mealItem.measurement"
-          ng-required="true"
-          ng-options="measurement.id as measurement.unit for measurement in measurements"
-          ng-change="resetNutrition()">
-        </select>
-      </label>
-    </div>
-
-    <div class="col-md-5">
-      <input ng-disabled="isDisabled" type="text" ng-model="mealItem.ingredient.name" placeholder="Name of Food"
-             typeahead="ingredient for ingredient in getIngredients($viewValue)"
-             typeahead-min-length="4" typeahead-on-select="mealItemSelect($item)" class="form-control" />
-    </div>
-    <div class="col-md-2 xeditable-item-wrapper">
-      Amount: <a href="#" editable-number="mealItem.amount"
-                 e-step="any" e-style="width: 75px" onaftersave="resetNutrition()" >
-                {{mealItem.amount}}
-              </a>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4 xeditable-item-wrapper"
-         ng-repeat="(item, value) in nutritionData | filter:partitionFilter ">
-      <a href="#" editable-text="value" e-style="width: 75px" onaftersave="bindNutritionData(item, value)" >
-        {{ value }}
-      </a>
-      {{item | dataToPresentationFilter | capitalizeFilter: 'all'}}
-    </div>
-  </div>
 </div>
 
 <div class="modal-footer">

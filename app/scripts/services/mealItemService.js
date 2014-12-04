@@ -57,15 +57,24 @@ function MealItemService($http, $q, $rootScope, flashService) {
 
   this.saveMealItem = function (data, params, id) {
     var deferred = $q.defer();
+    var method = 'POST';
     var url = $rootScope.settings.ccEndpoint.url + 'mealitems/';
 
-    if (angular.isNumber(id)) {
-      url = url + id + '/';
+    if (angular.isUndefinedOrNull(params)) {
+      params = {};
     }
 
-    $http.post(url, data,
-      { params: params }
-    ).success(
+    if (!angular.isUndefinedOrNull(id)) {
+      url = url + id + '/';
+      method = 'PUT';
+    }
+
+    $http({
+      url:    url,
+      data:   data,
+      method: method,
+      params: params
+    }).success(
       function (data) {
         if (angular.isArray(data)) {
           mealItemList = data;

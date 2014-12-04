@@ -46,11 +46,24 @@ angular.module('caloriecounterfitnessApp')
       startingDay: 0
     };
 
-    $scope.fetchMeals = function (selectedDate) {
+    $scope.findMealCategoryById = function (id) {
+      for (var i = 0; $scope.mealCategories.length > i; i++) {
+        if ($scope.mealCategories[i].id === id) {
+          return $scope.mealCategories[i];
+        }
+      }
+      return $scope.mealCategories[1];
+    };
+
+    $scope.fetchMeals = function (selectedDate, activeMeal) {
       $scope.isDisabled = true;
       mealService.retrieveMealByDate(selectedDate, selectedDate).then(function () {
         $scope.isDisabled = false;
         $scope.Meals = mealService.list();
+        for (var i=0; i < $scope.Meals.length; i++) {
+          $scope.Meals[i].meal_category = $scope.findMealCategoryById($scope.Meals[i].meal_category);
+          $scope.Meals[i].isOpen = !!((!angular.isUndefinedOrNull(activeMeal)) && ($scope.Meals[i].id === (activeMeal.id)));
+        }
       });
     };
 
@@ -82,8 +95,8 @@ angular.module('caloriecounterfitnessApp')
         }
       });
 
-      modalInstance.result.then(function () {
-        $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat));
+      modalInstance.result.then(function (meal) {
+        $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat), meal);
       }, function () {
 
       });
@@ -95,10 +108,10 @@ angular.module('caloriecounterfitnessApp')
       var meal = {
         day: $filter('date')($scope.dt, $scope.urlFormat),
         meal_items: [],
-        meal_category: category
+        meal_category: category.id
       };
       mealService.saveMeal(meal).then(function() {
-        $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat));
+        $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat), mealService.data());
       });
       $scope.newMealBtnStatus.isOpen = false;
     };
@@ -108,5 +121,7 @@ angular.module('caloriecounterfitnessApp')
     };
     $scope.fetchMealCategories();
     $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat));
+
+
 
   });

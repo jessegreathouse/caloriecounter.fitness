@@ -1,6 +1,6 @@
 'use strict';
 
-var PartitionFilter = function ($cacheFactory) {
+function PartitionFilter($cacheFactory) {
     var arrayCache = $cacheFactory('partition');
     return function (arr, size) {
         var parts = [], cachedParts,
@@ -16,5 +16,5 @@ var PartitionFilter = function ($cacheFactory) {
 
         return parts;
     };
-};
+}
 angular.module('caloriecounterfitnessApp').filter('partitionFilter', ['$cacheFactory', PartitionFilter]);
