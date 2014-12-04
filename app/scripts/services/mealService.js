@@ -87,7 +87,7 @@ function MealService($http, $q, $rootScope, flashService) {
           $rootScope.$broadcast('flashAlert', mealList);
         } else {
           mealData = data;
-          flashService.addMessage('success', 'Saved Meal: "' + mealData.meal_category.name + '" .');
+          flashService.addMessage('success', 'Saved Meal.');
           $rootScope.$broadcast('flashAlert', mealData);
         }
         deferred.resolve(true);

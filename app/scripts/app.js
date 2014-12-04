@@ -41,20 +41,20 @@ angular
       })
       .when('/about', {
         templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
+        controller: 'aboutController',
         public: true
       })
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'mainController'
       })
       .when('/token', {
         templateUrl: 'views/token.html',
-        controller: 'TokenCtrl'
+        controller: 'TokenController'
       })
       .when('/meal', {
         templateUrl: 'views/meal.html',
-        controller: 'MealCtrl'
+        controller: 'mealController'
       })
       .otherwise({
         redirectTo: '/'

@@ -37,7 +37,7 @@
             <div>( {{mealItem.amount}} {{mealItem.measurement.unit}} )  {{mealItem.ingredient.name}}
               <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': mealItem.isOpen, 'glyphicon-chevron-right': !mealItem.isOpen}"></i></div>
           </accordion-heading>
-          <div class="meal-control" ng-model="mealItem" ng-include="'views/mealItemEdit.html'" ng-controller="MealItemEditCtrl"></div>
+          <div class="meal-control" ng-model="mealItem" ng-include="'views/mealItemEdit.html'" ng-controller="mealItemEditController"></div>
         </accordion-group>
       </accordion>
     </accordion-group>

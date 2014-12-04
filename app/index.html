@@ -25,7 +25,7 @@
 
 <!-- Add your site or application content here -->
 <div class="container">
-  <div class="header" ng-controller="HeaderCtrl">
+  <div class="header" ng-controller="headerController">
     <ul class="nav nav-pills pull-right">
       <li ng-class="{ active: isActive('/')}" ><a ng-href="#/">Home</a></li>
       <li ng-class="{ active: isActive('/meal')}" ng-show="user.authenticated" ><a ng-href="#/meal" >Meal</a></li>
@@ -126,14 +126,14 @@
 <script src="scripts/directives/flashMessageDirective.js"></script>
 
 <!-- controllers -->
-<script src="scripts/controllers/header.js"></script>
-<script src="scripts/controllers/main.js"></script>
-<script src="scripts/controllers/about.js"></script>
-<script src="scripts/controllers/token.js"></script>
-<script src="scripts/controllers/meal.js"></script>
-<script src="scripts/controllers/mealItem.js"></script>
-<script src="scripts/controllers/mealItemAdd.js"></script>
-<script src="scripts/controllers/mealItemEdit.js"></script>
+<script src="scripts/controllers/headerController.js"></script>
+<script src="scripts/controllers/mainController.js"></script>
+<script src="scripts/controllers/aboutController.js"></script>
+<script src="scripts/controllers/tokenController.js"></script>
+<script src="scripts/controllers/mealController.js"></script>
+<script src="scripts/controllers/mealItemController.js"></script>
+<script src="scripts/controllers/mealItemAddController.js"></script>
+<script src="scripts/controllers/mealItemEditController.js"></script>
 <!-- endbuild -->
 
 </body>
