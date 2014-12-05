@@ -101,5 +101,52 @@ function MealService($http, $q, $rootScope, flashService) {
     );
     return deferred.promise;
   };
+
+  this.removeMeal = function (meal, params) {
+    var deferred = $q.defer();
+    var url = $rootScope.settings.ccEndpoint.url + 'meals/';
+
+    if (angular.isUndefinedOrNull(params)) {
+      params = {};
+    }
+
+    if (angular.isUndefinedOrNull(meal)) {
+      deferred.reject(meal);
+      flashService.addMessage('error', 'No Meal was specified for delete.');
+      $rootScope.$broadcast('flashAlert', meal);
+      return deferred.promise;
+    } else if (!angular.isArray(meal)) {
+      if (angular.isUndefinedOrNull(meal.id)) {
+        deferred.reject(meal);
+        flashService.addMessage('error', 'No Meal was specified for delete.');
+        $rootScope.$broadcast('flashAlert', meal);
+        return deferred.promise;
+      } else {
+        url = url + meal.id + '/';
+      }
+    }
+
+    $http.delete(url,
+      { params: params }
+    ).success(
+      function (data) {
+        if (angular.isArray(data)) {
+          flashService.addMessage('success', 'Removed ' + data.length + ' Meals.');
+          $rootScope.$broadcast('flashAlert', data);
+        } else {
+          flashService.addMessage('success', 'Removed Meal: "' + meal.meal_category.name + '".');
+          $rootScope.$broadcast('flashAlert', data);
+        }
+        deferred.resolve(true);
+      }
+    ).error(
+      function (data) {
+        deferred.reject(data);
+        flashService.addMessage('error', 'Failed to remove Meal.');
+        $rootScope.$broadcast('flashAlert', data);
+      }
+    );
+    return deferred.promise;
+  };
 }
 angular.module('caloriecounterfitnessApp').service('mealService', ['$http', '$q', '$rootScope', 'flashService', MealService]);

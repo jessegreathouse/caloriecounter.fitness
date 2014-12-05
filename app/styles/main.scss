@@ -161,6 +161,18 @@ a.editable.btn {
     left:11px;
 }
 
+#meals .panel-heading {
+  padding: 15px;
+}
+
+#meals a.accordion-toggle {
+  text-decoration: none;
+}
+
+.meal-header-controls {
+  top: -9px;
+}
+
 .meal-control .form-control,  .meal-control .measurement-select {
   width: 99%;
 }

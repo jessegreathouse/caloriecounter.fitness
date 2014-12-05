@@ -16,4 +16,3 @@ function MealItemEditController($scope, $controller, mealIngredientService) {
   $scope.mealItemSelect(mealIngredientService.serializeItem($scope.mealItem.ingredient));
 }
 angular.module('caloriecounterfitnessApp').controller('mealItemEditController', ['$scope', '$controller', 'mealIngredientService', MealItemEditController]);
-

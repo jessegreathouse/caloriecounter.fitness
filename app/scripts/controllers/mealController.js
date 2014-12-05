@@ -7,7 +7,7 @@
  * # mealController
  * Controller of the caloriecounterfitnessApp
  */
-function MealController($scope, $filter, $modal, mealService, mealCategoryService, usdaService) {
+function MealController($scope, $filter, $modal, mealService, mealItemService, mealCategoryService, usdaService) {
   $scope.mealCategories = [];
   $scope.Meals = [];
   $scope.isDisabled = false;
@@ -20,6 +20,34 @@ function MealController($scope, $filter, $modal, mealService, mealCategoryServic
   $scope.usda = undefined;
   $scope.newMealBtnStatus = {
     isOpen: false
+  };
+
+  $scope.removeMealItem = function (event, meal, index) {
+    event.stopPropagation();
+    $scope.isDisabled = true;
+    mealItemService.removeMealItem(meal.meal_items[index]).then(function () {
+      meal.meal_items.splice(index,1);
+      $scope.isDisabled = false;
+    }), function() {
+      $scope.isDisabled = false;
+    };
+  };
+
+  $scope.removeMeal = function (event, index) {
+    var meal = $scope.Meals[index];
+    event.stopPropagation();
+    $scope.isDisabled = true;
+    for (var i=0; i < meal.meal_items.length; i++) {
+      mealItemService.removeMealItem(meal.meal_items[i]).then(function (i) {
+        meal.meal_items.splice(i, 1);
+      });
+    }
+    mealService.removeMeal(meal).then(function() {
+      $scope.Meals.splice(index, 1);
+      $scope.isDisabled = false;
+    }), function() {
+      $scope.isDisabled = false;
+    };
   };
 
   $scope.toggleDropdown = function($event) {
@@ -81,7 +109,8 @@ function MealController($scope, $filter, $modal, mealService, mealCategoryServic
     });
   };
 
-  $scope.newItem = function (meal) {
+  $scope.newItem = function (event, meal) {
+    event.stopPropagation();
     var myMeal = function () {
       return meal;
     };
@@ -110,7 +139,7 @@ function MealController($scope, $filter, $modal, mealService, mealCategoryServic
       meal_category: category.id
     };
     mealService.saveMeal(meal).then(function() {
-      $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat), mealService.data());
+      $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat));
     });
     $scope.newMealBtnStatus.isOpen = false;
   };
@@ -121,4 +150,4 @@ function MealController($scope, $filter, $modal, mealService, mealCategoryServic
   $scope.fetchMealCategories();
   $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat));
 }
-angular.module('caloriecounterfitnessApp').controller('mealController', ['$scope', '$filter', '$modal', 'mealService', 'mealCategoryService', 'usdaService', MealController]);
+angular.module('caloriecounterfitnessApp').controller('mealController', ['$scope', '$filter', '$modal', 'mealService', 'mealItemService', 'mealCategoryService', 'usdaService', MealController]);
