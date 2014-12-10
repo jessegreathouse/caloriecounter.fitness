@@ -21,6 +21,46 @@ function NutritionService($http, $q, $rootScope, flashService) {
     return (carb - fiber);
   };
 
+  this.composeMeals = function (meals) {
+    var obj = {};
+    var values = [
+      'calories',
+      'calories_from_carbohydrate',
+      'calories_from_protein',
+      'calories_from_fat',
+      'calories_from_net_carbohydrate',
+      'net_carbohydrate',
+      'total_fat',
+      'saturated_fat',
+      'trans_fat',
+      'cholesterol',
+      'sodium',
+      'carbohydrate',
+      'fiber',
+      'sugars',
+      'protein',
+      'vitamin_a',
+      'vitamin_b',
+      'vitamin_c',
+      'vitamin_d',
+      'calcium',
+      'iron',
+      'potassium'
+    ];
+
+    for (var i=0; i < values.length; i++) {
+      obj[values[i]] = 0;
+    }
+
+    for (i=0; i < meals.length; i++) {
+      for (var j=0; j < values.length; j++) {
+        var field = values[j];
+        obj[field] = obj[field] + meals[i][field];
+      }
+    }
+    return obj;
+  };
+
   this.normalizeNutrition = function (data, modifier, amount) {
     var obj = {};
     var values = [

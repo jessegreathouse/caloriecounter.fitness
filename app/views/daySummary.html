@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Nutrition Summary</div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-6" >
+        <h2>Calories: {{ dayNutritionData.calories }}</h2>
+      </div>
+      <div class="col-md-6" >
+        <h2>Target: {{ nutritionProfile.target_calories }}</h2>
+      </div>
+    </div>
+    <div class="row"><div class="col-md-12"><h3>Macros</h3></div></div>
+    <div class="row">
+      <div class="col-md-3" >
+        <h4>Protein: {{ dayNutritionData.protein | number : 0}} / {{ nutritionProfile.target_protein | number : 0 }}</h4>
+      </div>
+      <div class="col-md-3" >
+        <h4>Carbs: {{ dayNutritionData.net_carbohydrate | number : 0 }} / {{ nutritionProfile.target_carbohydrate | number : 0 }}</h4>
+      </div>
+      <div class="col-md-3" >
+        <h4>Fat: {{ dayNutritionData.total_fat | number : 0 }} / {{ nutritionProfile.target_fat | number : 0 }}</h4>
+      </div>
+      <div class="col-md-3" >
+        <h4>Fiber: {{ dayNutritionData.fiber | number : 0 }} / {{ nutritionProfile.target_fiber | number : 0 }}</h4>
+      </div>
+    </div>
+  </div>
+</div>

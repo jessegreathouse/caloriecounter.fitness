@@ -27,7 +27,8 @@ angular
     'ngTouch',
     'ui.bootstrap',
     'xeditable',
-    'UserApp'
+    'UserApp',
+    'ng-chartjs'
   ])
   .config(function ($routeProvider) {
     $routeProvider

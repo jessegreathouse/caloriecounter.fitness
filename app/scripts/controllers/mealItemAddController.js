@@ -7,7 +7,7 @@
  * # mealItemAddController
  * Controller of the caloriecounterfitnessApp
  */
-function MealItemAddController($scope, $controller, $modalInstance, nutritionService, meal) {
+function MealItemAddController($scope, $rootScope, $controller, $modalInstance, nutritionService, meal) {
   $controller('mealItemController', {$scope: $scope});
   $scope.mealItem = {
     meal: meal.url,
@@ -17,8 +17,9 @@ function MealItemAddController($scope, $controller, $modalInstance, nutritionSer
   };
   $scope.measurements = [$scope.mealItem.measurement];
   $scope.nutritionData = $scope.mealItem.ingredient;
+  $scope.meal = meal;
 
-  $scope.$on('meal-item-saved', function () {
+  $rootScope.$on('meal-item-saved', function (scope, meal) {
     $modalInstance.close(meal);
   });
 
@@ -32,4 +33,4 @@ function MealItemAddController($scope, $controller, $modalInstance, nutritionSer
     $scope.findMeasurementWeightById($scope.mealItem.measurement),
     $scope.mealItem.amount);
 }
-angular.module('caloriecounterfitnessApp').controller('mealItemAddController', ['$scope', '$controller', '$modalInstance', 'nutritionService', 'meal', MealItemAddController]);
+angular.module('caloriecounterfitnessApp').controller('mealItemAddController', ['$scope', '$rootScope', '$controller', '$modalInstance', 'nutritionService', 'meal', MealItemAddController]);

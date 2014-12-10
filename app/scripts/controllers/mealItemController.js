@@ -7,7 +7,7 @@
  * # mealItemController
  * Controller of the caloriecounterfitnessApp
  */
-function MealItemController($scope, nutritionService, measurementService, mealItemService, mealIngredientService, usdaService) {
+function MealItemController($scope, $rootScope, nutritionService, measurementService, mealItemService, mealIngredientService, usdaService) {
   $scope.usda = undefined;
   $scope.srchTxt = 'USDA Database';
   $scope.isDisabled = false;
@@ -27,7 +27,7 @@ function MealItemController($scope, nutritionService, measurementService, mealIt
     mealItem.ingredient = $scope.mealItem.ingredient.url;
     mealItemService.saveMealItem(mealItem, {}, $scope.mealItem.id).then(function () {
       $scope.isDisabled = false;
-      $scope.$broadcast('meal-item-saved');
+      $rootScope.$broadcast('meal-item-saved', $scope.meal);
     });
   };
 
@@ -36,10 +36,10 @@ function MealItemController($scope, nutritionService, measurementService, mealIt
     $scope.normalizeIngredient();
   };
 
-  $scope.resetNutrition = function () {
+  $scope.resetNutrition = function (measurement) {
     $scope.nutritionData = nutritionService.calculateNutrition(
       $scope.mealItem.ingredient,
-      $scope.findMeasurementWeightById($scope.mealItem.measurement),
+      $scope.findMeasurementWeightById(measurement.id),
       $scope.mealItem.amount
     );
   };
@@ -49,7 +49,7 @@ function MealItemController($scope, nutritionService, measurementService, mealIt
     var id = $scope.mealItem.ingredient.id;
     $scope.mealItem.ingredient = nutritionService.normalizeNutrition(
       $scope.nutritionData,
-      $scope.findMeasurementWeightById($scope.mealItem.measurement),
+      $scope.findMeasurementWeightById($scope.mealItem.measurement.id),
       $scope.mealItem.amount
     );
     $scope.mealItem.ingredient.name = name;
@@ -87,7 +87,7 @@ function MealItemController($scope, nutritionService, measurementService, mealIt
           $scope.mealItem.ingredient = usdaService.normalizeNutrientData(usdaService.data());
           $scope.nutritionData = nutritionService.calculateNutrition(
             $scope.mealItem.ingredient,
-            $scope.findMeasurementWeightById($scope.mealItem.measurement),
+            $scope.findMeasurementWeightById($scope.mealItem.measurement.id),
             $scope.mealItem.amount);
           $scope.mealItem.ingredient.name = item.long_description;
         } else {
@@ -126,7 +126,7 @@ function MealItemController($scope, nutritionService, measurementService, mealIt
       $scope.mealItem.ingredient = mealIngredientService.data();
       $scope.nutritionData = nutritionService.calculateNutrition(
         $scope.mealItem.ingredient,
-        $scope.findMeasurementWeightById($scope.mealItem.measurement),
+        $scope.findMeasurementWeightById($scope.mealItem.measurement.id),
         $scope.mealItem.amount);
       $scope.isDisabled = false;
     });
@@ -141,5 +141,5 @@ function MealItemController($scope, nutritionService, measurementService, mealIt
     });
   };
 }
-angular.module('caloriecounterfitnessApp').controller('mealItemController', ['$scope', 'nutritionService', 'measurementService', 'mealItemService', 'mealIngredientService', 'usdaService', MealItemController]);
+angular.module('caloriecounterfitnessApp').controller('mealItemController', ['$scope', '$rootScope', 'nutritionService', 'measurementService', 'mealItemService', 'mealIngredientService', 'usdaService', MealItemController]);
 

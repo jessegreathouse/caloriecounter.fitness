@@ -24,6 +24,8 @@
   </div>
 </div>
 
+<div class="row day-control" ng-include="'views/daySummary.html'" ng-controller="daySummaryController"></div>
+
 <div class="row">
   <accordion id="meals">
     <accordion-group ng-repeat="meal in Meals" is-open="meal.isOpen">
@@ -36,7 +38,7 @@
         </div>
       </accordion-heading>
       <accordion close-others="false" id="meal-{{meal.id}}">
-        <accordion-group ng-repeat="mealItem in meal.meal_items" is-open="mealItem.isOpen" >
+        <accordion-group ng-repeat="mealItem in meal.meal_items" is-open="mealItem.isOpen"  >
           <accordion-heading>
             <div>( {{mealItem.amount}} x {{mealItem.measurement.unit}} )  {{mealItem.ingredient.name}}
               <div class="btn-group pull-right meal-header-controls" role="group" >

@@ -11,9 +11,10 @@
       <select
         ng-disabled="isDisabled"
         ng-model="mealItem.measurement"
+        ng-init="mealItem.measurement = mealItem.measurement || $scope.measurements[0]"
         ng-required="true"
         ng-options="measurement.unit for measurement in measurements"
-        ng-change="resetNutrition()" class="measurement-select">
+        ng-change="resetNutrition(mealItem.measurement)" class="measurement-select">
       </select>
     </label>
   </div>
@@ -25,7 +26,7 @@
   </div>
   <div class="col-md-2 xeditable-item-wrapper item-amount">
     Amount: <a href="#" editable-number="mealItem.amount"
-               e-step="any" e-style="width: 75px" onaftersave="resetNutrition()" >
+               e-step="any" e-style="width: 75px" onaftersave="resetNutrition(mealItem.measurement)" >
     {{mealItem.amount}}
   </a>
   </div>
