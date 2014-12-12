@@ -33,10 +33,6 @@ function MealController($scope, $rootScope, $filter, $modal, mealService, mealIt
     });
   };
 
-  $scope.removeMealItem = function (i, mealItems) {
-    mealItems.splice(i, 1);
-  };
-
   $scope.removeMeal = function (event, index) {
     var meal = $scope.Meals[index];
     event.stopPropagation();
@@ -136,8 +132,28 @@ function MealController($scope, $rootScope, $filter, $modal, mealService, mealIt
     });
   };
 
+  $scope.copyMeal = function (event, meal) {
+    event.stopPropagation();
+    var myMeal = function () {
+      return meal;
+    };
+    var modalInstance = $modal.open({
+      templateUrl: 'views/mealCopy.html',
+      controller: 'mealCopyController',
+      size: 'lg',
+      resolve: {
+        meal: myMeal
+      }
+    });
+
+    modalInstance.result.then(function () {
+
+    }, function () {
+
+    });
+  };
+
   $rootScope.$on('meal-item-saved', function (scope, meal) {
-    console.log(meal);
     $scope.fetchMeals($filter('date')($scope.dt, $scope.urlFormat), meal);
   });
 

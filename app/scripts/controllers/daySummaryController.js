@@ -8,7 +8,8 @@
  * Controller of the caloriecounterfitnessApp
  */
 function DaySummaryController($scope, $rootScope, nutritionService, nutritionProfileService) {
-  $scope.dayNutritionData = {
+  $scope.isOpen = true;
+  $scope.nutritionData = {
     calories: 0,
     calories_from_carbohydrate: 0,
     calories_from_protein: 0,
@@ -52,7 +53,8 @@ function DaySummaryController($scope, $rootScope, nutritionService, nutritionPro
   });
 
   $rootScope.$on('fetch-meals', function (scope, meals) {
-    $scope.dayNutritionData = nutritionService.composeMeals(meals);
+    $scope.nutritionData = nutritionService.composeMeals(meals);
+    $scope.$broadcast('nutrition-data-update');
   });
 
   nutritionProfileService.retrieveNutritionProfile().then(function () {

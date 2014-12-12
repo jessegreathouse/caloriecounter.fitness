@@ -161,11 +161,12 @@ a.editable.btn {
     left:11px;
 }
 
-#meals .panel-heading {
+#meals .panel-heading, .day-control div.panel-heading {
   padding: 15px;
 }
 
-#meals a.accordion-toggle {
+#meals a.accordion-toggle, .day-control a.accordion-toggle {
+
   text-decoration: none;
 }
 
@@ -203,4 +204,12 @@ div.meal-item-add-name div, div.meal-item-add-name div a.btn {
   right: 10px;
   bottom: 10px;
   z-index: 1100;
+}
+
+ul.nutrient-list {
+  list-style-type: none;
+}
+
+ul.nutrient-list li {
+  right: 54px;
 }

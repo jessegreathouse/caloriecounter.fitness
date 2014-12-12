@@ -16,7 +16,8 @@
     "bootstrap-social": "~4.8.0",
     "userapp-angular": "~2.0.4",
     "angular-xeditable": "~0.1.8",
-    "ng-chartjs": "~0.0.5"
+    "angular-chart.js": "~0.3.9",
+    "Chart.js": "~0.2.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0",

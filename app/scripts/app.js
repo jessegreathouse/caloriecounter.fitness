@@ -28,7 +28,7 @@ angular
     'ui.bootstrap',
     'xeditable',
     'UserApp',
-    'chartjs'
+    'chart.js'
   ])
   .config(function ($routeProvider) {
     $routeProvider

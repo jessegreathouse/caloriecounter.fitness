@@ -1,28 +1,52 @@
-<div class="panel panel-default">
-  <div class="panel-heading">Nutrition Summary</div>
-  <div class="panel-body">
+<accordion>
+  <accordion-group is-open="isOpen">
+    <accordion-heading >
+      <div>Nutrition Summary</div>
+    </accordion-heading >
     <div class="row">
       <div class="col-md-6" >
-        <h2>Calories: {{ dayNutritionData.calories }}</h2>
+        <h2>Calories: {{ nutritionData.calories | number : 0}}</h2>
       </div>
       <div class="col-md-6" >
-        <h2>Target: {{ nutritionProfile.target_calories }}</h2>
+        <h2>Target: {{ nutritionProfile.target_calories | number : 0}}</h2>
       </div>
+
     </div>
-    <div class="row"><div class="col-md-12"><h3>Macros</h3></div></div>
     <div class="row">
-      <div class="col-md-3" >
-        <h4>Protein: {{ dayNutritionData.protein | number : 0}} / {{ nutritionProfile.target_protein | number : 0 }}</h4>
+      <div class="col-md-6">
+        <div ng-controller="macroPieController" ng-include="'partials/macroPie.html'" ></div>
       </div>
-      <div class="col-md-3" >
-        <h4>Carbs: {{ dayNutritionData.net_carbohydrate | number : 0 }} / {{ nutritionProfile.target_carbohydrate | number : 0 }}</h4>
-      </div>
-      <div class="col-md-3" >
-        <h4>Fat: {{ dayNutritionData.total_fat | number : 0 }} / {{ nutritionProfile.target_fat | number : 0 }}</h4>
-      </div>
-      <div class="col-md-3" >
-        <h4>Fiber: {{ dayNutritionData.fiber | number : 0 }} / {{ nutritionProfile.target_fiber | number : 0 }}</h4>
+      <div class="col-md-6">
+        <div ng-controller="macroBarController" ng-include="'partials/macroBar.html'" ></div>
       </div>
     </div>
-  </div>
-</div>
+    <div class="row">
+      <div class="col-md-3">
+        <h3>Macros</h3>
+        <h4>Protein: {{ nutritionData.protein | number : 0}} / {{ nutritionProfile.target_protein | number : 0 }}</h4>
+        <h4>Carbs: {{ nutritionData.net_carbohydrate | number : 0 }} / {{ nutritionProfile.target_carbohydrate | number : 0 }}</h4>
+        <h4>Fat: {{ nutritionData.total_fat | number : 0 }} / {{ nutritionProfile.target_fat | number : 0 }}</h4>
+        <h4>Fiber: {{ nutritionData.fiber | number : 0 }} / {{ nutritionProfile.target_fiber | number : 0 }}</h4>
+      </div>
+      <div class="col-md-9">
+        <h3>Nutrients</h3>
+        <ul class="nutrient-list">
+          <li class="col-md-4">Sat. Fat: {{ nutritionData.saturated_fat | number : 0}}</li>
+          <li class="col-md-4">Trans Fat: {{ nutritionData.trans_fat | number : 0}} </li>
+          <li class="col-md-4">Cholesterol: {{ nutritionData.cholesterol | number : 0}}</li>
+          <li class="col-md-4">Sodium: {{ nutritionData.sodium | number : 0}}</li>
+          <li class="col-md-4">Carbohydrate: {{ nutritionData.carbohydrate | number : 0}}</li>
+          <li class="col-md-4">Fiber: {{ nutritionData.fiber | number : 0}}</li>
+          <li class="col-md-4">Sugars: {{ nutritionData.sugars | number : 0}}</li>
+          <li class="col-md-4">Vitamin a: {{ nutritionData.vitamin_a | number : 0}}</li>
+          <li class="col-md-4">Vitamin b: {{ nutritionData.vitamin_b | number : 0}}</li>
+          <li class="col-md-4">Vitamin c: {{ nutritionData.vitamin_c | number : 0}}</li>
+          <li class="col-md-4">Vitamin d: {{ nutritionData.vitamin_d | number : 0}}</li>
+          <li class="col-md-4">Calcium: {{ nutritionData.calcium | number : 0}}</li>
+          <li class="col-md-4">Iron: {{ nutritionData.iron | number : 0}}</li>
+          <li class="col-md-4">Potassium: {{ nutritionData.potassium | number : 0}}</li>
+        </ul>
+      </div>
+    </div>
+  </accordion-group>
+</accordion>

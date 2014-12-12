@@ -33,6 +33,7 @@
         <div>{{meal.meal_category.name}}
           <div class="btn-group pull-right meal-header-controls" role="group" >
             <i class="glyphicon glyphicon-plus btn btn-default" ng-click="newItem($event, meal)"></i>
+            <i class="glyphicon glyphicon-share btn btn-default" ng-click="copyMeal($event, meal)"></i>
             <i class="glyphicon glyphicon-remove btn btn-default" ng-click="removeMeal($event, $index)"></i>
           </div>
         </div>
